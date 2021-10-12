@@ -5,21 +5,38 @@ const router = express.Router();
 
 // Get Announcements
 router.get('/:do/:category', async (req, res) => {
-    if(req.params.do == 'accepted' && req.params.category == 'null') {
+    //get all accepted posts 
+    if(req.params.do === 'accepted' && req.params.category === 'all') {
         const announcements = await loadAnnouncementsCollection();
         res.send(await announcements.find( { isAccepted: {$eq: true} } ).toArray());
+        
+    } else if(req.params.do === 'accepted' && req.params.category === 'cars') {
+        // get all accepted posts from category
+        const announcements = await loadAnnouncementsCollection();
+        res.send(await announcements.find( { $and: [ { isAccepted: {$eq: true} }, {category: 'cars'} ] } ).toArray());
+
+    }else if(req.params.do === 'accepted' && req.params.category === 'clothes') {
+        // get all accepted posts from category
+        const announcements = await loadAnnouncementsCollection();
+        res.send(await announcements.find( { $and: [ { isAccepted: {$eq: true} }, {category: 'clothes'} ] } ).toArray());
+
+    }else if(req.params.do === 'accepted' && req.params.category === 'houses') {
+        // get all accepted posts from category
+        const announcements = await loadAnnouncementsCollection();
+        res.send(await announcements.find( { $and: [ { isAccepted: {$eq: true} }, {category: 'houses'} ] } ).toArray());
+
+    }else if(req.params.do === 'accepted' && req.params.category === 'services') {
+        // get all accepted posts from category
+        const announcements = await loadAnnouncementsCollection();
+        res.send(await announcements.find( { $and: [ { isAccepted: {$eq: true} }, {category: 'services'} ] } ).toArray());
 
     } else if(req.params.do == 'notaccepted') {
+
         const announcements = await loadAnnouncementsCollection();
         res.send(await announcements.find( { isAccepted: {$eq: false} } ).toArray());
     }
 });
 
-// Get notAccepted Announcements
-// router.get('/accepted', async (req, res) => {
-//     const announcements = await loadAnnouncementsCollection();
-//     res.send(await announcements.find( { isAccepted: {$eq: false} } ).toArray());
-// });
 
 // Add Announcement
 router.post('/', async (req, res) => {

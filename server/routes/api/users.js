@@ -12,27 +12,25 @@ router.get('/', async (req, res) => {
 
 // Get user
 router.post('/login', async (req, res) => {
-    // const users = await loadUsersCollection();
-    // const user = users.find(user => user.username === req.body.username)
-    // // console.log(user);
-    // if(user == null) {
-    //     return res.status(400).send('Nie można odnaleźć takiego użytkownika')
-    // }
+    const users = await loadUsersCollection();
+    const user = users.find(user => user.username === req.body.username)
+    // console.log(user);
+    if(user == null) {
+        return res.status(400).send('Nie można odnaleźć takiego użytkownika')
+    }
 
-    // try {
-    //     if(await bcrypt.compare(req.body.password, user.password)) {
-    //         res.send('Success');
-    //         console.log('udało się');
-    //     } else {
-    //         res.send('Not allowed');
-    //         console.log('nie udało się');
-    //     }
-    // } catch {
-    //     res.status(500).send();
-    // }
-    // res.send(await users.find({  username: req.body.username, password: req.body.password} ).toArray());
-
-    // chuj wie czemu ale nie działa XD
+    try {
+        if(await bcrypt.compare(req.body.password, user.password)) {
+            res.send('Success');
+            console.log('udało się');
+        } else {
+            res.send('Not allowed');
+            console.log('nie udało się');
+        }
+    } catch {
+        res.status(500).send();
+    }
+    res.send(await users.find({  username: req.body.username, password: req.body.password} ).toArray());
     
 });
 
